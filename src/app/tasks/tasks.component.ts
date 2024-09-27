@@ -15,7 +15,10 @@ export class TasksComponent {
   @Input({ required: true }) userId!: string;
   @Input({ required: true }) name!: string;
 
+
   isAddingTask = false;
+
+
 
   tasks = [
     {
@@ -25,6 +28,7 @@ export class TasksComponent {
       summary:
         'Learn all the basic and advanced features of Angular & how to apply them.',
       dueDate: '2025-12-31',
+      completed: false,
     },
     {
       id: 't2',
@@ -32,6 +36,7 @@ export class TasksComponent {
       title: 'Build first prototype',
       summary: 'Build a first prototype of the online shop website',
       dueDate: '2024-05-31',
+      completed: false,
     },
     {
       id: 't3',
@@ -40,6 +45,7 @@ export class TasksComponent {
       summary:
         'Prepare and describe an issue template which will help with project management',
       dueDate: '2024-06-15',
+      completed: false,
     },
   ];
 
@@ -48,7 +54,8 @@ export class TasksComponent {
   }
 
   onCompleteTask(id: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+    // this.tasks = this.tasks.filter((task) => task.id !== id);
+    
   }
 
   onStartAddTask() {
@@ -66,6 +73,7 @@ export class TasksComponent {
       title: taskData.title,
       summary: taskData.summary,
       dueDate: taskData.date,
+      completed: false,
     });
     this.isAddingTask = false;
   }

@@ -16,6 +16,9 @@ export class TaskComponent {
   @Output() complete = new EventEmitter<string>();
 
   onCompleteTask(){
-    this.complete.emit(this.task.id);
+    // this.complete.emit(this.task.id);
+    console.log("completed");
+    console.log(this.task);
+    this.task.completed = true;
   }
 }
