@@ -18,7 +18,6 @@ export class TaskComponent {
 
   onCompleteTask() {
     // this.complete.emit(this.task.id);
-
     console.log(this.task);
     this.task.completed = true;
     console.log("Class applied:", this.task.completed);
