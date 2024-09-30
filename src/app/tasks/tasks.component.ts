@@ -4,7 +4,6 @@ import { Component, Input } from '@angular/core';
 import { TaskComponent } from './task/task.component';
 import { NewTaskComponent } from './new-task/new-task.component';
 
-
 @Component({
   selector: 'app-tasks',
   standalone: true,
@@ -22,8 +21,6 @@ export class TasksComponent {
   get selectedUserTasks() {
     return this.tasksService.getUserTasks(this.userId);
   }
-
-
 
   onStartAddTask() {
     this.isAddingTask = true;
