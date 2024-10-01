@@ -61,3 +61,25 @@ ul {
     width: auto;
   }
 }
+
+.filter-sort {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-sort input,
+.filter-sort select {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.filter-sort input {
+  flex: 1;
+}
+
+.filter-sort select {
+  width: 200px;
+}

@@ -10,8 +10,16 @@
     </menu>
   </header>
 
+  <div class="filter-sort">
+    <input type="text" placeholder="Search tasks by title" [(ngModel)]="searchTerm" />
+    <select [(ngModel)]="sortOrder">
+      <option value="asc">Due Date: Ascending</option>
+      <option value="desc">Due Date: Descending</option>
+    </select>
+  </div>
+
   <ul>
-    @for (task of selectedUserTasks; track task.id) {
+    @for (task of filteredAndSortedTasks; track task.id) {
       <li>
         <app-task [task]="task"/>
       </li>
