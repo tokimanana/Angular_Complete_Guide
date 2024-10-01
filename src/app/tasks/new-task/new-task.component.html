@@ -1,25 +1,34 @@
 <div class="backdrop" (click)="onCancel()" ></div>
 <dialog open>
   <h2>Add Task</h2>
-  <form (ngSubmit)="onSubmit()">
+  <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
     <p>
       <label for="title">Title</label>
-      <input type="text" id="title" name="title" [(ngModel)]="enteredTitle" />
+      <input type="text" id="title" formControlName="title"/>
+      <span *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+        This is required and must be at least 3 characters long.
+      </span>
     </p>
 
     <p>
       <label for="summary">Summary</label>
-      <textarea id="summary" rows="5" name="summary" [(ngModel)]="enteredSummary" ></textarea>
+      <textarea id="summary" rows="5" formControlName="summary"></textarea>
+      <span *ngIf="taskForm.get('summary')?.invalid && taskForm.get('summary')?.touched">
+        Summary is required and must be at least 10 characters long.
+      </span>
     </p>
 
     <p>
       <label for="due-date">Due Date</label>
-      <input type="date" id="due-date" name="due-date" [(ngModel)]="enteredDate"  />
+      <input type="date" id="due-date" formControlName="date" />
+      <span *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched">
+        Due date must be a future date.
+      </span>
     </p>
 
     <p class="actions">
       <button type="button" (click)="onCancel()">Cancel</button>
-      <button type="submit">Create</button>
+      <button type="submit" [disabled]="taskForm.invalid">Create</button>
     </p>
   </form>
 </dialog>
