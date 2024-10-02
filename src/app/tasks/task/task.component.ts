@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 
 import { type Task } from './task.model';
 import { CardComponent } from '../../shared/card/card.component';
@@ -15,10 +15,20 @@ import { TasksService } from '../tasks.services';
 })
 export class TaskComponent {
   @Input({ required: true }) task!: Task;
+  @Output() editTask = new EventEmitter();
   private tasksService = inject(TasksService);
+  isEditing = false;
+  
 
   onCompleteTask() {
     this.task.completed = true;
     this.tasksService.updateTask(this.task);
+  }
+
+  onEditTask() {
+    this.tasksService.updateTask(this.task);
+    this.isEditing = true;
+    this.editTask.emit(this.task);
+    console.log(this.task);
   }
 }

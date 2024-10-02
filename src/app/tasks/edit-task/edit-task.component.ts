@@ -2,29 +2,23 @@ import { Component, EventEmitter, Output, Input, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { TasksService } from './../tasks.services';
 import { CommonModule } from '@angular/common';
-
+import { Task } from '../task/task.model';
 
 @Component({
-  selector: 'app-new-task',
+  selector: 'app-edit-task',
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule],
-  templateUrl: './new-task.component.html',
-  styleUrl: './new-task.component.css',
+  templateUrl: './edit-task.component.html',
+  styleUrl: './edit-task.component.css'
 })
-export class NewTaskComponent {
+export class EditTaskComponent {
   @Input({ required: true }) userId!: string;
+  @Input({ required: true }) task!: Task;
   @Output() close = new EventEmitter();
 
   private TasksService = inject(TasksService);
-  taskForm: FormGroup;
+  taskForm!: FormGroup;
 
-  constructor (private fb: FormBuilder){
-    this.taskForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      summary: ['', [Validators.required, Validators.minLength(10)]],
-      date: ['', [Validators.required, this.futurDateValidator]]
-    })
-  }
 
   futurDateValidator(control: AbstractControl): { [key: string] : boolean } | null {
     const currentDate = new Date();
@@ -32,14 +26,24 @@ export class NewTaskComponent {
     return selectedDate >= currentDate ? null : {'invalidDate': true}
   }
 
-  onCancel() {
-    this.close.emit();
+  constructor(private fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.taskForm = this.fb.group({
+      title: [this.task.title, [Validators.required, Validators.minLength(3)]],
+      summary: [this.task.summary, [Validators.required, Validators.minLength(10)]],
+      date: [this.task.dueDate, [Validators.required]]
+    });
   }
 
   onSubmit() {
-    if(this.taskForm.valid){
-      this.TasksService.addTask(this.taskForm.value, this.userId);
+    if (this.taskForm.valid) {
+      console.log('Task saved:', this.task);
+      this.close.emit();
     }
+  }
+
+  onCancel() {
     this.close.emit();
   }
 }

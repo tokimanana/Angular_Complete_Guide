@@ -2,11 +2,16 @@
   <app-new-task  [userId]="userId" (close)="onCloseAddTask()"/>
 }
 
+@if(isEditingTask && selectedTask){
+  <app-edit-task [userId]="userId" [task]="selectedTask" (close)="onCloseEditTask()"/>
+}
+
 <section id="tasks">
   <header>
     <h2>{{ name }}'s Tasks</h2>
     <menu>
       <button (click)="onStartAddTask()" >Add Task</button>
+      <!-- <button *ngIf="selectedTask" (click)="onEditTask(selectedTask)">Edit</button> -->
     </menu>
   </header>
 
@@ -21,7 +26,7 @@
   <ul>
     @for (task of filteredAndSortedTasks; track task.id) {
       <li>
-        <app-task [task]="task"/>
+        <app-task [task]="task" (editTask)="onEditTask($event)"></app-task>
       </li>
     }
   </ul>

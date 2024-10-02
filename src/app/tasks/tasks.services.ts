@@ -83,7 +83,7 @@ export class TasksService {
       summary: 'Resolve critical bugs reported by the QA team',
       dueDate: '2024-12-20',
       completed: false,
-    },
+    }
   ];
 
   constructor() {
@@ -111,11 +111,6 @@ export class TasksService {
   }
 
   updateTask(updatedTask: Task) {
-    // const taskIndex = this.tasks.findIndex(task => task.id === updatedTask.id);
-    // if (taskIndex > -1) {
-    //   this.tasks[taskIndex] = updatedTask;
-    //   this.saveTasks();
-    // }
     this.tasks = this.tasks.map(task => task.id === updatedTask.id ? updatedTask : task);
     this.saveTasks();
   }

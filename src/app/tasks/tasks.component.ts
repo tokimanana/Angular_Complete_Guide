@@ -6,21 +6,23 @@ import { TasksService } from './tasks.services';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Task } from './task/task.model';
-
+import { EditTaskComponent } from './edit-task/edit-task.component';
 @Component({
   selector: 'app-tasks',
   standalone: true,
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
-  imports: [TaskComponent, NewTaskComponent, CommonModule, FormsModule],
+  imports: [TaskComponent, NewTaskComponent, CommonModule, FormsModule, EditTaskComponent],
 })
 export class TasksComponent implements OnInit, OnChanges{
   @Input({ required: true }) userId!: string;
   @Input({ required: true }) name!: string;
   isAddingTask = false;
+  isEditingTask = false;
   searchTerm: string = '';
   sortOrder: string = 'asc';
   tasks: Task[] = [];
+  selectedTask: Task | null = null;
 
   constructor(private tasksService: TasksService) {}
 
@@ -55,5 +57,16 @@ export class TasksComponent implements OnInit, OnChanges{
   onCloseAddTask() {
     this.isAddingTask = false;
     this.loadTasks(); // Refresh tasks after adding
+  }
+
+  onEditTask(task: Task) {
+    this.isEditingTask = true;
+    this.selectedTask = task;
+    console.log(this.selectedTask);
+  }
+
+  onCloseEditTask() {
+    this.isEditingTask = false;
+    this.loadTasks(); // Refresh tasks after editing
   }
 }

@@ -4,6 +4,9 @@
     <time>{{task.dueDate | date: 'fullDate' }}</time>
     <p>{{task.summary}}</p>
     <p class="actions">
+
+      <button *ngIf="!task.completed" (click)="onEditTask()">Edit</button>
+
       <button (click)="onCompleteTask()" [ngClass]="{'completed': task.completed}" [disabled]="task.completed" [ngStyle]="task.completed ? {'background-color': 'grey' } : {}"> {{ task.completed ? "Completed" : "Complete" }} </button>
     </p>
   </article>
