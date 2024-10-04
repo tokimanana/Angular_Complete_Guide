@@ -1,6 +1,12 @@
 import { Component, EventEmitter, Output, Input, inject } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { TasksService } from './../tasks.services';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  Validators,
+  AbstractControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Task } from '../task/task.model';
 
@@ -9,21 +15,21 @@ import { Task } from '../task/task.model';
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './edit-task.component.html',
-  styleUrl: './edit-task.component.css'
+  styleUrl: './edit-task.component.css',
 })
 export class EditTaskComponent {
   @Input({ required: true }) userId!: string;
   @Input({ required: true }) task!: Task;
   @Output() close = new EventEmitter();
 
-  private TasksService = inject(TasksService);
   taskForm!: FormGroup;
 
-
-  futurDateValidator(control: AbstractControl): { [key: string] : boolean } | null {
+  futurDateValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
     const currentDate = new Date();
     const selectedDate = new Date(control.value);
-    return selectedDate >= currentDate ? null : {'invalidDate': true}
+    return selectedDate >= currentDate ? null : { invalidDate: true };
   }
 
   constructor(private fb: FormBuilder) {}
@@ -31,13 +37,21 @@ export class EditTaskComponent {
   ngOnInit() {
     this.taskForm = this.fb.group({
       title: [this.task.title, [Validators.required, Validators.minLength(3)]],
-      summary: [this.task.summary, [Validators.required, Validators.minLength(10)]],
-      date: [this.task.dueDate, [Validators.required]]
+      summary: [
+        this.task.summary,
+        [Validators.required, Validators.minLength(10)],
+      ],
+      date: [this.task.dueDate, [Validators.required]],
     });
   }
 
   onSubmit() {
     if (this.taskForm.valid) {
+      // Update the task object with form values
+      this.task.title = this.taskForm.value.title;
+      this.task.summary = this.taskForm.value.summary;
+      this.task.dueDate = this.taskForm.value.date;
+
       console.log('Task saved:', this.task);
       this.close.emit();
     }
